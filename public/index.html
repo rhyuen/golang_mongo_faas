@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>Second GOLANG FUNCTIONS API</title>
+    <!-- <link rel="icon" type="image/png/ico" href="./favicon.ico" /> -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <style>
+        * {
+            box-sizing: border-box;
+            --bgColour: #f9f9f9;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "Helvetica";
+            font-size: 20px;
+            background: var(--bgColour);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:visited {
+            color: palevioletred;
+        }
+
+
+
+        nav {
+            display: sticky;
+            background: lavender;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav__item {
+            height: 100%;
+        }
+
+        .nav__item:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            display: grid;
+            grid-template-columns: minmax(20px, 1fr) repeat(12, minmax(auto, 100px)) minmax(20px, 1fr);
+        }
+
+        aside.gutter {
+            grid-column: span 1;
+            background: var(--bgColour);
+        }
+
+        section.center {
+            grid-column: span 12;
+            background: lavender;
+            display: grid;
+            grid-template-columns: repeat(12, minmax(auto, 100px));
+            grid-auto-rows: minmax(auto, 100px);
+        }
+
+        .square {
+            grid-column: span 3;
+            grid-row: span 3;
+            background: palevioletred;
+            color: white;
+            padding: 3rem;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <span class="nav__item"><a href="/api/first">First</a></span>
+        <span class="nav__item"><a href="/api/first">Second</a></span>
+    </nav>
+    <main>
+        <aside class="gutter"></aside>
+        <section class="center">
+            <div class="square">q</div>
+            <div class="square">w</div>
+            <div class="square">e</div>
+            <div class="square">r</div>
+            <div class="square">t</div>
+            <div class="square">asdf</div>
+            <div class="square">a</div>
+            <div class="square">v</div>
+            <div class="square">y</div>
+            <div class="square">a</div>
+            <div class="square">v</div>
+            <div class="square">y</div>
+            <div class="square">a</div>
+            <div class="square">v</div>
+            <div class="square">y</div>
+        </section>
+        <aside class="gutter"></aside>
+    </main>
+</body>
+
+</html>
