@@ -19,10 +19,10 @@ type Trainer struct {
 	City string `json:"city"`
 }
 
-type Payloads struct {
-	Path string    `json:"path"`
-	Data []Trainer `json:"data"`
-}
+// type Payloads struct {
+// 	Path string    `json:"path"`
+// 	Data []Trainer `json:"data"`
+// }
 
 //Handler ... Exported Handler REQ, RES
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -47,7 +47,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	list := make([]Trainer, 0)
 	list = append(list, firstOne)
-	send := Payloads{"/mongoconn", list}
+	send := Payload{"/mongoconn", list}
 
 	json.NewEncoder(w).Encode(send)
 
