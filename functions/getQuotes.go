@@ -1,24 +1,60 @@
 package handler
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
+	"os"
 
-	"github.com/rhyuen/types"
+	"github.com/rhyuen/golang_mongo_faas/types"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-type Payload struct {
-	Path string        `json:"path"`
-	Data []types.Quote `json:"quotes"`
-}
 
 //Handler ... Exported Handler REQ, RES
 func Handler(w http.ResponseWriter, r *http.Request) {
-	latest := types.Quote{"Mahatma Ghandi", "Be the change you wish to see in the world."}
-	second := types.Quote{"Batman", "vengeance is the night."}
-	list := make([]types.Quote, 0)
-	list = append(list, latest, second)
-	send := Payload{"path is here", list}
-	json.NewEncoder(w).Encode(send)
+
+	url := os.Getenv("go_mongo_db")
+	clientOptions := options.Client().ApplyURI(url).SetRetryWrites(false)
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var data []types.Quote
+
+	collection := client.Database("go_tester_one").Collection("quotes")
+	findOptions := options.Find()
+	currItr, err := collection.Find(context.TODO(), bson.D{{}}, findOptions)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for currItr.Next(context.TODO()) {
+		var currQuote types.Quote
+		err := currItr.Decode(&currQuote)
+		if err != nil {
+			log.Fatal(err)
+		}
+		data = append(data, currQuote)
+	}
+
+	if err := currItr.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	currItr.Close(context.TODO())
+
+	payload := types.Payload{"/getQuotes", data}
+	json.NewEncoder(w).Encode(payload)
+
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("getQuotes Connection to MONGODB closed.")
 
 }

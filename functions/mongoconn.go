@@ -8,46 +8,33 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/rhyuen/golang_mongo_faas/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Trainer struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-	City string `json:"city"`
-}
-
-// type Payloads struct {
-// 	Path string    `json:"path"`
-// 	Data []Trainer `json:"data"`
-// }
-
 //Handler ... Exported Handler REQ, RES
 func Handler(w http.ResponseWriter, r *http.Request) {
 	url := os.Getenv("go_mongo_db")
 
-	clientOptions := options.Client().ApplyURI(url)
+	clientOptions := options.Client().ApplyURI(url).SetRetryWrites(false)
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 	if err != nil {
 		log.Fatal(err)
 	}
-	// err = client.Ping(context.TODO(), nil)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	fmt.Println("connected to db.")
-	collection := client.Database("go_tester_one").Collection("trainers")
 
-	var firstOne Trainer
+	fmt.Println("connected to db.")
+	collection := client.Database("go_tester_one").Collection("quotes")
+
+	var firstQuote types.Quote
 
 	filter := bson.D{{"age", 10}}
-	collection.FindOne(context.TODO(), filter).Decode(&firstOne)
+	collection.FindOne(context.TODO(), filter).Decode(&firstQuote)
 
-	list := make([]Trainer, 0)
-	list = append(list, firstOne)
-	send := Payload{"/mongoconn", list}
+	list := make([]types.Quote, 0)
+	list = append(list, firstQuote)
+	send := types.Payload{"/mongoconn", list}
 
 	json.NewEncoder(w).Encode(send)
 
