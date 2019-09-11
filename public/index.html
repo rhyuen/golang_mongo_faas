@@ -35,7 +35,6 @@
             display: sticky;
             background: lavender;
             padding: 1rem;
-            margin-bottom: 1rem;
         }
 
         .nav__item {
@@ -56,48 +55,110 @@
             background: var(--bgColour);
         }
 
+        section.hero {
+            grid-column: span 14;
+            margin: 0;
+            height: 50vh;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
         section.center {
             grid-column: span 12;
-            background: lavender;
             display: grid;
             grid-template-columns: repeat(12, minmax(auto, 100px));
             grid-auto-rows: minmax(auto, 100px);
         }
 
         .square {
+            position: relative;
             grid-column: span 3;
             grid-row: span 3;
-            background: palevioletred;
+            background: rgba(0, 0, 0, 0.1);
             color: white;
             padding: 3rem;
             border: 1px solid white;
+        }
+
+        .square--bigger {
+            grid-column: span 6;
+            grid-row: span 6;
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 3rem;
+            border: 1px solid white;
+        }
+
+        .square--longer {
+            grid-column: span 6;
+            grid-row: span 3;
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 3rem;
+            border: 1px solid white;
+        }
+
+
+        .curl {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 1.5rem;
+            border: 1px solid #f3f3f3;
+            color: black;
+            font-weight: bolder;
+            background: white;
+            height: 100%;
+            width: 100%;
+        }
+
+        .curl:hover {
+            border-top-right-radius: 50%;
+            border-bottom-left-radius: 50%;
+            transition: border-top-right-radius ease-in 0.1s;
+            transition: border-bottom-left-radius ease-in 0.1s;
         }
     </style>
 </head>
 
 <body>
     <nav>
-        <span class="nav__item"><a href="/api/first">First</a></span>
+        <span class="nav__item"><a href="/api/first">Home</a></span>
         <span class="nav__item"><a href="/api/first">Second</a></span>
     </nav>
     <main>
+        <section class="hero">Medium Layout because I'm boring.</section>
         <aside class="gutter"></aside>
         <section class="center">
-            <div class="square">q</div>
-            <div class="square">w</div>
-            <div class="square">e</div>
-            <div class="square">r</div>
-            <div class="square">t</div>
-            <div class="square">asdf</div>
-            <div class="square">a</div>
-            <div class="square">v</div>
-            <div class="square">y</div>
-            <div class="square">a</div>
-            <div class="square">v</div>
-            <div class="square">y</div>
-            <div class="square">a</div>
-            <div class="square">v</div>
-            <div class="square">y</div>
+            <div class="square">
+                <div class="curl">Iron Man</div>
+            </div>
+            <div class="square">
+                <div class="curl">Captain Marvel</div>
+            </div>
+            <div class="square">Captain America</div>
+            <div class="square">Thor</div>
+            <div class="square">Hulk</div>
+            <div class="square">She-Hulk</div>
+            <div class="square">Moon-Knight</div>
+            <div class="square">Shang-Chi</div>
+            <div class="square">Reed Richards</div>
+            <div class="square">Black Panther</div>
+            <div class="square--bigger">Bigger</div>
+            <div class="square">Shuri</div>
+            <div class="square">Namor</div>
+            <div class="square--longer">Advertisement</div>
+            <div class="square">Beast</div>
+            <div class="square">Professor X</div>
+            <div class="square">Magneto</div>
+            <div class="square">
+                <div class="curl">Silver Surfer</div>
+            </div>
+            <div class="square">
+                <div class="curl">Dr. Doom</div>
+            </div>
+            <div class="square">
+                <div class="curl">Scarlet Witch</div>
+            </div>
         </section>
         <aside class="gutter"></aside>
     </main>
