@@ -10,6 +10,7 @@
         * {
             box-sizing: border-box;
             --bgColour: #f9f9f9;
+            --greyColour: rgba(0, 0, 0, 0.1);
         }
 
         body {
@@ -29,19 +30,25 @@
             color: palevioletred;
         }
 
-
-
         nav {
             display: sticky;
-            background: lavender;
+            background: var(--bgColour);
+            display: grid;
+            grid-template-columns: minmax(20px, 1fr) repeat(12, minmax(auto, 100px)) minmax(20px, 1fr);
+        }
+
+        .nav__container {
+            grid-column: 2/span 12;
+            background: var(--bgColour);
             padding: 1rem;
         }
 
-        .nav__item {
+        .nav__container__item {
+
             height: 100%;
         }
 
-        .nav__item:hover {
+        .nav__container__item:hover {
             text-decoration: underline;
         }
 
@@ -56,11 +63,25 @@
         }
 
         section.hero {
+            display: grid;
             grid-column: span 14;
             margin: 0;
             height: 50vh;
-            background: rgba(0, 0, 0, 0.1);
+            background: var(--bgColour);
+            color: white;
+            grid-template-columns: minmax(20px, 1fr) minmax(auto, 1400px) minmax(20px, 1fr);
         }
+
+        .hero__content {
+            background: black;
+            height: 100%;
+            grid-column: 2/3;
+            display: grid;
+            grid-template-columns: repeat(3, auto);
+            grid-template-rows: repeat(3, auto);
+        }
+
+        .hero__content__panel {}
 
         section.center {
             grid-column: span 12;
@@ -77,12 +98,13 @@
             color: white;
             padding: 3rem;
             border: 1px solid white;
+            overflow: hidden;
         }
 
         .square--bigger {
             grid-column: span 6;
             grid-row: span 6;
-            background: rgba(0, 0, 0, 0.1);
+            background: var(--greyColour);
             color: white;
             padding: 3rem;
             border: 1px solid white;
@@ -91,7 +113,7 @@
         .square--longer {
             grid-column: span 6;
             grid-row: span 3;
-            background: rgba(0, 0, 0, 0.1);
+            background: var(--greyColour);
             color: white;
             padding: 3rem;
             border: 1px solid white;
@@ -104,29 +126,58 @@
             left: 0;
             padding: 1.5rem;
             border: 1px solid #f3f3f3;
-            color: black;
+            color: white;
             font-weight: bolder;
-            background: white;
+            background-image: url("/images/sample.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: white;
             height: 100%;
             width: 100%;
+        }
+
+        .doom {
+            background-image: url("/images/doom.jpg");
+            background-position: top;
+        }
+
+        .silver {
+            background-image: url("/images/silversurfer.jpg");
+            background-position: center;
+        }
+
+        .shuri {
+            background-image: url("/images/shuri.jpg");
+            background-position: left;
         }
 
         .curl:hover {
             border-top-right-radius: 50%;
             border-bottom-left-radius: 50%;
-            transition: border-top-right-radius ease-in 0.1s;
-            transition: border-bottom-left-radius ease-in 0.1s;
+            transform: scale(1.1);
+            transition: all ease-in 0.1s;
+
         }
     </style>
 </head>
 
 <body>
     <nav>
-        <span class="nav__item"><a href="/api/first">Home</a></span>
-        <span class="nav__item"><a href="/api/first">Second</a></span>
+        <section class="nav__container">
+            <span class="nav__container__item"><a href="/api/first">Home</a></span>
+            <span class="nav__container__item"><a href="/api/first">Second</a></span>
+        </section>
     </nav>
     <main>
-        <section class="hero">Medium Layout because I'm boring.</section>
+        <section class="hero">
+
+            <div class="hero__content">
+                <div class="hero__content__panel">1</div>
+                <div class="hero__content__panel">2</div>
+                <div class="hero__content__panel">3</div>
+            </div>
+
+        </section>
         <aside class="gutter"></aside>
         <section class="center">
             <div class="square">
@@ -144,17 +195,19 @@
             <div class="square">Reed Richards</div>
             <div class="square">Black Panther</div>
             <div class="square--bigger">Bigger</div>
-            <div class="square">Shuri</div>
+            <div class="square">
+                <div class="curl shuri">Shuri</div>
+            </div>
             <div class="square">Namor</div>
             <div class="square--longer">Advertisement</div>
             <div class="square">Beast</div>
             <div class="square">Professor X</div>
             <div class="square">Magneto</div>
             <div class="square">
-                <div class="curl">Silver Surfer</div>
+                <div class="curl silver">Silver Surfer</div>
             </div>
             <div class="square">
-                <div class="curl">Dr. Doom</div>
+                <div class="curl doom">Dr. Doom</div>
             </div>
             <div class="square">
                 <div class="curl">Scarlet Witch</div>

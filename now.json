@@ -13,7 +13,7 @@
             "use": "@now/go@canary"
         },
         {
-            "src": "public/index.html",
+            "src": "/public/**/*.*",
             "use": "@now/static"
         }
     ],
@@ -26,8 +26,26 @@
             ]
         },
         {
+            "src": "/api/updateQuote/(.*)",
+            "dest": "/functions/updateQuote.go",
+            "methods": [
+                "PUT"
+            ]
+        },
+        {
+            "src": "/api/deleteQuote",
+            "dest": "/functions/deleteQuote.go",
+            "methods": [
+                "DELETE"
+            ]
+        },
+        {
             "src": "/api/(.*)",
             "dest": "/functions/$1.go"
+        },
+        {
+            "src": "/images/(.*)",
+            "dest": "/public/images/$1"
         },
         {
             "src": "/",

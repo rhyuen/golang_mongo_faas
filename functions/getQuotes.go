@@ -6,20 +6,17 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
+	"github.com/rhyuen/golang_mongo_faas/mw"
 	"github.com/rhyuen/golang_mongo_faas/types"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 //Handler ... Exported Handler REQ, RES
 func Handler(w http.ResponseWriter, r *http.Request) {
 
-	url := os.Getenv("go_mongo_db")
-	clientOptions := options.Client().ApplyURI(url).SetRetryWrites(false)
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	client, err := mw.DBConnect()
 	if err != nil {
 		log.Fatal(err)
 	}
