@@ -6,7 +6,7 @@ It uses the @now/go@canary builder so you can not have one function per folder t
 
 # TODO
 
-- Middleware folder called `mw` and package named `mw` for db connection and disconnect.
+- `DONE` Middleware folder called `mw` and package named `mw` for db connection and disconnect.
 
 # Summary of Changes and Results
 

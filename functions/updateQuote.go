@@ -33,7 +33,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	nextId := toUpdate.Id
 	nextText := toUpdate.Text
-	fmt.Println(nextId)
 
 	objId, err := primitive.ObjectIDFromHex(nextId)
 	if err != nil {

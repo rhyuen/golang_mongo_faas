@@ -19,29 +19,39 @@
     ],
     "routes": [
         {
-            "src": "/api/createQuote",
+            "src": "/api/quote",
             "dest": "/functions/createQuote.go",
             "methods": [
                 "POST"
             ]
         },
         {
-            "src": "/api/updateQuote/(.*)",
+            "src": "/api/quote",
             "dest": "/functions/updateQuote.go",
             "methods": [
                 "PUT"
             ]
         },
         {
-            "src": "/api/deleteQuote",
+            "src": "/api/quote",
             "dest": "/functions/deleteQuote.go",
             "methods": [
                 "DELETE"
             ]
         },
         {
+            "src": "/api/quote",
+            "dest": "/functions/getQuotes.go",
+            "methods": [
+                "GET"
+            ]
+        },
+        {
             "src": "/api/(.*)",
-            "dest": "/functions/$1.go"
+            "dest": "/functions/$1.go",
+            "methods": [
+                "GET"
+            ]
         },
         {
             "src": "/images/(.*)",

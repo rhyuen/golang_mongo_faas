@@ -10,7 +10,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
 	"github.com/rhyuen/golang_mongo_faas/mw"
-	"github.com/rhyuen/golang_mongo_faas/types"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
@@ -31,14 +30,18 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	objectId, err := primitive.ObjectIDFromHex(expectedId.Id)
 	if err != nil {
+		http.Error(w, err.Error(), 500)
 		log.Fatal(err)
+		return
 	}
 
 	filter := bson.D{{"_id", objectId}}
 
 	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
 	if err != nil {
+		http.Error(w, err.Error(), 500)
 		log.Fatal(err)
+		return
 	}
 
 	fmt.Printf("Deleted %v documents in the quotes collection.", deleteResult.DeletedCount)
@@ -47,9 +50,12 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	err = client.Disconnect(context.TODO())
 	if err != nil {
+		http.Error(w, err.Error(), 500)
 		log.Fatal(err)
-		errPayload := types.ErrorPayload{"deleteQuote Path", "Deletion Error", err}
-		json.NewEncoder(w).Encode(errPayload)
+		return
+		// errPayload := types.ErrorPayload{"deleteQuote Path", "Deletion Error", }
+		// json.NewEncoder(w).Encode(errPayload)
+
 	}
 
 	fmt.Println("Delete Quote route disconnected.")
