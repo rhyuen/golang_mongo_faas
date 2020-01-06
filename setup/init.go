@@ -49,3 +49,7 @@ func main() {
 	}
 	fmt.Println("InitDB Connection to MONGODB closed.")
 }
+
+func initWithFileData() error {
+	return nil
+}

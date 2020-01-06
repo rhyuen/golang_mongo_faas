@@ -32,7 +32,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 
 	for currItr.Next(context.TODO()) {
 		var currQuote types.Quote
+
 		err := currItr.Decode(&currQuote)
+
 		if err != nil {
 			log.Fatal(err)
 		}

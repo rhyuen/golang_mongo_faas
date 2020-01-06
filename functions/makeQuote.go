@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/rhyuen/golang_mongo_faas/model"
 	"github.com/rhyuen/golang_mongo_faas/mw"
-	"github.com/rhyuen/golang_mongo_faas/types"
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
@@ -18,16 +18,18 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	var requestBody types.Quote
+	var requestBody model.Quote
 	json.NewDecoder(r.Body).Decode(&requestBody)
 
-	requestBody.CreateQuote
-	collection := client.Database("go_tester_one").Collection("quotes")
-	insertResult, err := collection.InsertOne(context.TODO(), requestBody)
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println("Inserted a document.", insertResult.InsertedID)
+	// fmt.Println(requestBody.Author)
+	// fmt.Println(requestBody.Text)
+
+	// collection := client.Database("go_tester_one").Collection("quotes")
+	// insertResult, err := collection.InsertOne(context.TODO(), requestBody)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println("Inserted a document.", insertResult.InsertedID)
 
 	err = client.Disconnect(context.TODO())
 	if err != nil {

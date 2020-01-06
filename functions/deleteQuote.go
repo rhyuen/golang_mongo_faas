@@ -2,10 +2,10 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -23,12 +23,13 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	collection := client.Database("go_tester_one").Collection("quotes")
-	//TODO: Change below to query param from form.
 
-	var expectedId ExpectedRequest
-	json.NewDecoder(r.Body).Decode(&expectedId)
+	fmt.Println(strings.Split(r.URL.Path, "/")[3])
+	id := mw.GetURLParams(r)
 
-	objectId, err := primitive.ObjectIDFromHex(expectedId.Id)
+	fmt.Println(id)
+
+	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		log.Fatal(err)

@@ -1,5 +1,9 @@
 package types
 
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
 type Payload struct {
 	Path string  `json:"path"`
 	Data []Quote `json:"quotes"`
@@ -12,6 +16,7 @@ type ErrorPayload struct {
 }
 
 type Quote struct {
-	Author string `json:"author"`
-	Text   string `json:"text"`
+	Id     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Author string             `json:"author" bson:"author"`
+	Text   string             `json:"text" bson:"text"`
 }
