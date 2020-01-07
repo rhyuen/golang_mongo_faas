@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
@@ -24,10 +23,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 	collection := client.Database("go_tester_one").Collection("quotes")
 
-	fmt.Println(strings.Split(r.URL.Path, "/")[3])
 	id := mw.GetURLParams(r)
 
-	fmt.Println(id)
+	//fmt.Println(id)
 
 	objectId, err := primitive.ObjectIDFromHex(id)
 	if err != nil {

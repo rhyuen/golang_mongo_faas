@@ -23,7 +23,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	collection := client.Database("go_tester_one").Collection("quotes")
 
 	fmt.Println(strings.Split(r.URL.Path, "/")[3])
-	id := GetURLParams(r)
+	id := mw.GetURLParams(r)
 
 	fmt.Println(id)
 

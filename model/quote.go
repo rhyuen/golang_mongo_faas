@@ -6,31 +6,33 @@ import (
 	"fmt"
 	"log"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
+
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Quote struct {
-	Id     string `json:"id"`
-	Author string `json:"author"`
-	Text   string `json:"text"`
+	Id     primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
+	Author string             `json:"author"`
+	Text   string             `json:"text"`
 }
 
-func (q *Quote) GetQuote(db *mongo.Collection) error {
-	
+func (q *Quote) GetQuote(db *mongo.Client) error {
+
 	return errors.New("not Implemented")
 }
 
-func (q *Quote) UpdateQuote(db *mongo.Collection) error {
+func (q *Quote) UpdateQuote(db *mongo.Client) error {
 	return errors.New("not implemeneted")
 }
 
-func (q *Quote) DeleteQuote(db *mongo.Collection) error {
+func (q *Quote) DeleteQuote(db *mongo.Client) error {
 
 	return errors.New("Not done")
 }
 
-func (q *Quote) CreateQuote(db *mongo.Collection) error {
-	insertResult, err := db.InsertOne(context.TODO(), q)
+func (q *Quote) CreateQuote(db *mongo.Client) error {
+	insertResult, err := db.Database("go_tester_one").Collection("quotes").InsertOne(context.TODO(), q)
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -21,8 +21,10 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var requestBody model.Quote
 	json.NewDecoder(r.Body).Decode(&requestBody)
 
-	// fmt.Println(requestBody.Author)
-	// fmt.Println(requestBody.Text)
+	err = requestBody.CreateQuote(client)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// collection := client.Database("go_tester_one").Collection("quotes")
 	// insertResult, err := collection.InsertOne(context.TODO(), requestBody)
