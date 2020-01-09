@@ -29,7 +29,7 @@ func DBConnect() (*mongo.Client, error) {
 	return client, nil
 }
 
-func DBConnCollection(name, collection string) (*mongo.Collection, *mongo.Client, error) {
+func DBConnCollection(name string, collection string) (*mongo.Collection, *mongo.Client, error) {
 	url := os.Getenv("go_mongo_db")
 	clientOptions := options.Client().ApplyURI(url).SetRetryWrites(false)
 

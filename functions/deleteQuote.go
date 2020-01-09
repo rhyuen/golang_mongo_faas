@@ -8,8 +8,8 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
+	"github.com/rhyuen/golang_mongo_faas/model"
 	"github.com/rhyuen/golang_mongo_faas/mw"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 type ExpectedRequest struct {
@@ -17,11 +17,16 @@ type ExpectedRequest struct {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	client, err := mw.DBConnect()
+	// client, err := mw.DBConnect()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// collection := client.Database("go_tester_one").Collection("quotes")
+
+	col, client, err := mw.DBConnCollection("go_tester_one", "quotes")
 	if err != nil {
 		log.Fatal(err)
 	}
-	collection := client.Database("go_tester_one").Collection("quotes")
 
 	id := mw.GetURLParams(r)
 
@@ -34,18 +39,24 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	filter := bson.D{{"_id", objectId}}
-
-	deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	currQuote := model.Quote{Id: objectId}
+	err = currQuote.DeleteQuote(col)
 	if err != nil {
 		http.Error(w, err.Error(), 500)
 		log.Fatal(err)
 		return
 	}
 
-	fmt.Printf("Deleted %v documents in the quotes collection.", deleteResult.DeletedCount)
+	// filter := bson.D{{"_id", objectId}}
+	// deleteResult, err := collection.DeleteOne(context.TODO(), filter)
+	// if err != nil {
+	// 	http.Error(w, err.Error(), 500)
+	// 	log.Fatal(err)
+	// 	return
+	// }
 
-	fmt.Fprintf(w, string(deleteResult.DeletedCount))
+	// fmt.Printf("Deleted %v documents in the quotes collection.", deleteResult.DeletedCount)
+	// fmt.Fprintf(w, string(deleteResult.DeletedCount))
 
 	err = client.Disconnect(context.TODO())
 	if err != nil {

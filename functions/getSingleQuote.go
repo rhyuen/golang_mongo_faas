@@ -6,23 +6,23 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
 
+	"github.com/rhyuen/golang_mongo_faas/model"
 	"github.com/rhyuen/golang_mongo_faas/mw"
-	"github.com/rhyuen/golang_mongo_faas/types"
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type Body struct {
+	Path string        `json:"path"`
+	Data []model.Quote `json:"quotes"`
+}
+
 func Handler(w http.ResponseWriter, r *http.Request) {
-	client, err := mw.DBConnect()
+	col, client, err := mw.DBConnCollection("go_tester_one", "quotes")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	collection := client.Database("go_tester_one").Collection("quotes")
-
-	fmt.Println(strings.Split(r.URL.Path, "/")[3])
 	id := mw.GetURLParams(r)
 
 	fmt.Println(id)
@@ -32,19 +32,32 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	filter := bson.D{{"_id", objId}}
-
-	var getResult types.Quote
-	err = collection.FindOne(context.TODO(), filter).Decode(&getResult)
+	toUpdate := model.Quote{Id: objId}
+	err = toUpdate.GetQuote(col)
 	if err != nil {
+		fmt.Println("issue with GetQuote")
 		log.Fatal(err)
+
 	}
-	fmt.Println("The number of items retrieved: ", getResult)
+	data := make([]model.Quote, 0)
+	data = append(data, toUpdate)
 
-	data := make([]types.Quote, 0)
-	data = append(data, getResult)
+	// filter := bson.D{{"_id", objId}}
 
-	payload := types.Payload{"/getSingleQuote", data}
+	// var getResult types.Quote
+	// err = collection.FindOne(context.TODO(), filter).Decode(&getResult)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	// fmt.Println("The number of items retrieved: ", getResult)
+
+	// data := make([]types.Quote, 0)
+	// data = append(data, getResult)
+
+	// payload := types.Payload{"/getSingleQuote", data}
+	// json.NewEncoder(w).Encode(payload)
+
+	payload := Body{"/getSingleQuoteUpdated", data}
 	json.NewEncoder(w).Encode(payload)
 
 	err = client.Disconnect(context.TODO())
