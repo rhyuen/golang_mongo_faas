@@ -4,11 +4,28 @@ This may or may not be a REST API repo for Golang using MongoDB and Zeit Functio
 
 It uses the @now/go@canary builder so you can not have one function per folder that the @now/go builder is beholden to.
 
+# TEST
+
+> cd tests
+> go test -v
+
 # TODO
 
-- `DONE` Middleware folder called `mw` and package named `mw` for db connection and disconnect.
+2. JA13, 2020: Add string validation I guess.
+1. `DONE` Middleware folder called `mw` and package named `mw` for db connection and disconnect.
 
 # Summary of Changes and Results
+
+JA14, 2020:
+> Moved data into separate JSON file for `setup/init.go` db populate script.
+
+> $ go run setup/init.go
+
+> the path for `ioutil.ReadFile("setup/data.json")`, particularly the filepath taken as an argument for the call is relative to the ROOT, *NOT* the script doing the calling, which is *ODD*.
+
+JA13, 2020:
+> Added GetSingleQuote Test that asserts on the `r.Body.Path` property
+> Uses Service Object Model
 
 DE 27, 2019:
 > Let's figure out what's going on again.

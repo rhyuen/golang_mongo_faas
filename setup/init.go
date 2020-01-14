@@ -2,45 +2,49 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 
 	_ "github.com/joho/godotenv/autoload"
+	"github.com/rhyuen/golang_mongo_faas/model"
 	"github.com/rhyuen/golang_mongo_faas/mw"
-	"github.com/rhyuen/golang_mongo_faas/types"
 )
 
 func main() {
-	client, err := mw.DBConnect()
+	col, client, err := mw.DBConnCollection("go_tester_one", "quotes")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	collection := client.Database("go_tester_one").Collection("quotes")
-
-	err = collection.Drop(context.TODO())
+	err = col.Drop(context.TODO())
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("Collection Dropped from DB.")
 
-	cap := types.Quote{"Captain America", "I can do this all day."}
-	ghandi := types.Quote{"Mahatma Ghandi", "Be the change you wish to see in the world."}
-	batman := types.Quote{"Batman", "vengeance is the night."}
-	hulk := types.Quote{"Hulk", "I am always angry."}
-	thor := types.Quote{"Thor", "More Mead!"}
-	iron := types.Quote{"Iron Man", "I am Iron man."}
-	spider := types.Quote{"Spider-Man", "Did you guys see that really old movie with the walkie thingies?"}
+	file, err := ioutil.ReadFile("setup/data.json")
+	if err != nil {
+		fmt.Println("issue with reading file.")
+		fmt.Println(err)
+	}
 
-	dataList := make([]types.Quote, 0)
-	dataList = append(dataList, cap, ghandi, batman, hulk, thor, iron, spider)
+	type File struct {
+		Data []model.Quote `json:"data"`
+	}
+	var latest File
+	err = json.Unmarshal(file, &latest)
+	if err != nil {
+		fmt.Println(err)
+	}
 
-	for _, q := range dataList {
-		insertResult, err := collection.InsertOne(context.TODO(), q)
+	for _, q := range latest.Data {
+		err := q.CreateQuote(col)
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Inserted a document.", insertResult.InsertedID)
+		fmt.Println("Inserted a document.")
 	}
 
 	client.Disconnect(context.TODO())
