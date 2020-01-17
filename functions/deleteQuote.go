@@ -17,11 +17,6 @@ type ExpectedRequest struct {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// client, err := mw.DBConnect()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// collection := client.Database("go_tester_one").Collection("quotes")
 
 	col, client, err := mw.DBConnCollection("go_tester_one", "quotes")
 	if err != nil {
@@ -46,17 +41,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 		return
 	}
-
-	// filter := bson.D{{"_id", objectId}}
-	// deleteResult, err := collection.DeleteOne(context.TODO(), filter)
-	// if err != nil {
-	// 	http.Error(w, err.Error(), 500)
-	// 	log.Fatal(err)
-	// 	return
-	// }
-
-	// fmt.Printf("Deleted %v documents in the quotes collection.", deleteResult.DeletedCount)
-	// fmt.Fprintf(w, string(deleteResult.DeletedCount))
 
 	err = client.Disconnect(context.TODO())
 	if err != nil {

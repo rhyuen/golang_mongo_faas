@@ -42,21 +42,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	data := make([]model.Quote, 0)
 	data = append(data, toUpdate)
 
-	// filter := bson.D{{"_id", objId}}
-
-	// var getResult types.Quote
-	// err = collection.FindOne(context.TODO(), filter).Decode(&getResult)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println("The number of items retrieved: ", getResult)
-
-	// data := make([]types.Quote, 0)
-	// data = append(data, getResult)
-
-	// payload := types.Payload{"/getSingleQuote", data}
-	// json.NewEncoder(w).Encode(payload)
-
 	payload := Body{"/getSingleQuoteUpdated", data}
 	json.NewEncoder(w).Encode(payload)
 

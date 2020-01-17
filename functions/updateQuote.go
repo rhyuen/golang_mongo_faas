@@ -17,12 +17,7 @@ type ExpectedPayload struct {
 }
 
 func Handler(w http.ResponseWriter, r *http.Request) {
-	// client, err := mw.DBConnect()
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
 
-	// collection := client.Database("go_tester_one").Collection("quotes")
 	col, client, err := mw.DBConnCollection("go_tester_one", "quotes")
 	if err != nil {
 		log.Fatal(err)
@@ -45,19 +40,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	// filter := bson.D{{"_id", objId}}
-	// update := bson.D{
-	// 	{"$set", bson.D{
-	// 		{"text", nextText},
-	// 	}},
-	// }
-
-	// updateResult, err := collection.UpdateOne(context.TODO(), filter, update)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// fmt.Println("The number of items update: ", updateResult.ModifiedCount)
 
 	// fmt.Fprint(w, updateResult.ModifiedCount)
 
