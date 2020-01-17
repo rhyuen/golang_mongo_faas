@@ -2,13 +2,13 @@ package handler
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/rhyuen/golang_mongo_faas/model"
 	"github.com/rhyuen/golang_mongo_faas/mw"
+	"github.com/rhyuen/golang_mongo_faas/response"
 )
 
 type Body struct {
@@ -31,7 +31,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	payload := Body{"/getSingleQuoteUpdated", data}
-	json.NewEncoder(w).Encode(payload)
+	//json.NewEncoder(w).Encode(payload)
+
+	response.WithJSON(w, 200, payload)
 
 	err = client.Disconnect(context.TODO())
 	if err != nil {
